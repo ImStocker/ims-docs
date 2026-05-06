@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "desktop:docs:dev": "vitepress dev desktop",
+    "desktop:docs:build": "vitepress build desktop",
+    "desktop:docs:preview": "vitepress preview desktop",
+    "web:docs:dev": "vitepress dev web",
+    "web:docs:build": "vitepress build web",
+    "web:docs:preview": "vitepress preview web",
+    "docs:build": "npm run desktop:docs:build && npm run web:docs:build"
+  },
+  "devDependencies": {
+    "vitepress": "^2.0.0-alpha.17"
+  }
+}
