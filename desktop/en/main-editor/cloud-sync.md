@@ -1,30 +1,34 @@
 ---
 outline: deep
 ---
-# Синхронизация с облаком
+# Cloud Sync
 
-Система поддерживает работу с **облачными проектами**. Это позволяет хранить копию проекта на удалённом сервере, иметь доступ к нему с разных устройств и работать совместно с коллегами.
+The system supports working with **cloud projects**. This allows you to store a copy of the project on a remote server, access it from different devices, and collaborate with colleagues.
 
-## Подключение облачного проекта
+## Connecting a Cloud Project
 
-Вы можете работать с облачным проектом двумя способами:
+You can work with a cloud project in two ways:
 
-1. **Создать новый облачный проект** – при создании проекта [см. раздел Создание нового проекта](../getting-started/create-project.md) выберите тип «Облачный». Проект будет автоматически сохранён локально и на сервере.
-2. **Открыть существующий облачный проект** – на стартовом экране нажмите «Открыть облачный проект» и выберите нужный проект из списка. После загрузки он станет доступен как локальный проект для дальнейшей работы.
+1. **Create a new cloud project** – when creating a project [see Creating a New Project section](../getting-started/create-project.md) select the "Cloud" type. The project will be automatically saved locally and on the server.
+2. **Open an existing cloud project** – on the start screen, click "Open cloud project" and select the desired project from the list. After downloading, it becomes available as a local project for further work.
 
-## Кнопка синхронизации
+## Sync Button
 
-В интерфейсе редактора в правом верхнем углу присутствует кнопка **«Синхронизация»** (в виде стрелочек).
+<div align="center">
+  <img src="../images/cloud_sync_en.png" alt="Sync button">
+</div>
 
-- **При нажатии** происходит сравнение локальной версии проекта с облачной.
-- Изменения, сделанные локально, загружаются в облако.
-- Если облачная версия новее (вы работали с другого устройства), изменения подтягиваются локально.
+In the editor interface, in the top-right corner, there is a **"Sync"** button (shaped like arrows).
 
-## Превращение локального проекта в облачный
+- **When clicked**, the local project version is compared with the cloud version.
+- Changes made locally are uploaded to the cloud.
+- If the cloud version is newer (you worked from another device), changes are pulled locally.
 
-Если у вас уже есть локальный проект, вы можете «прикрепить» его к облаку:
+## Converting a Local Project to Cloud
 
-1. Откройте локальный проект.
-2. Нажмите кнопку синхронизации.
-3. Система предложит связать проект с облаком – подтвердите действие.
-4. После этого проект будет загружен в облако, и дальнейшая синхронизация будет работать как для обычного облачного проекта.
+If you already have a local project, you can "attach" it to the cloud:
+
+1. Open the local project.
+2. Click the sync button.
+3. The system will offer to link the project to the cloud – confirm the action.
+4. After this, the project will be uploaded to the cloud, and subsequent synchronization will work as for a regular cloud project.

@@ -1,36 +1,36 @@
 ---
 outline: deep
 ---
-# Типы создаваемых элементов
+# Element Types
 
-При создании нового элемента (через кнопку в левой панели) вам предлагается выбрать **базовый тип**. От выбора зависит начальная структура элемента.
+When creating a new element (via the button in the left panel), you are prompted to select a **base type**. The choice determines the initial structure of the element.
 
-## Основные типы (доступны напрямую)
+## Main Types (Available Directly)
 
-| Тип | Назначение | Начальное содержимое |
-|-----|-----------|----------------------|
-| **Текст** | Обычный текстовый документ | Элемент с одним текстовым блоком (без форматирования или с базовым) |
-| **Markdown** | Документ в формате Markdown | Элемент, в котором текст пишется с использованием Markdown-разметки. **Важно:** такие элементы сохраняются в формате `.md`, а не `.json` (как все остальные). Это удобно для экспорта в системы, поддерживающие Markdown. |
-| **Игровой объект** | Объект с картинкой, описанием и свойствами | Элемент с предустановленной структурой: блок-галерея (для иконки), текстовое описание, таблица свойств для параметров. Подробнее [см. раздел Игровые объекты и шаблоны](game-objects-and-templates.md). |
-| **Игровая механика** | Текстовое описание игровой механики | Простой текстовый элемент, оптимизированный для записи правил, формул, механик. |
-| **Диаграмма** | Визуальная диаграмма | Элемент, содержащий только один блок – **блок-схему** [см. раздел Блок-схема](block-types.md#Блок-схема). |
-| **Сценарий** | Визуальный скрипт / диалог | Элемент, содержащий только один блок – **сценарий** [см. раздел Сценарий](block-types.md#сценарий). |
-| **Уровень** | Редактор уровня | Элемент, содержащий только один блок – **редактор уровня** [см. раздел Редактор уровня](block-types.md#редактор-уровня). |
+| Type | Purpose | Initial Content |
+|------|---------|-----------------|
+| **Text** | Plain text document | Element with one text block (unformatted or with basic formatting) |
+| **Markdown** | Document in Markdown format | Element where text is written using Markdown syntax. **Important:** such elements are saved in `.md` format, not `.json` (like all others). This is convenient for exporting to systems that support Markdown. |
+| **Game Object** | Object with image, description, and properties | Element with a preset structure: gallery block (for icon), text description, properties table for parameters. More details [see Game Objects and Templates section](game-objects-and-templates.md). |
+| **Game Mechanic** | Text description of a game mechanic | Simple text element, optimized for writing rules, formulas, mechanics. |
+| **Diagram** | Visual diagram | Element containing only one block – a **diagram** [see Diagram section](block-types.md#diagram). |
+| **Script** | Visual script / dialog | Element containing only one block – a **script** [see Script section](block-types.md#script). |
+| **Level** | Level editor | Element containing only one block – a **level editor** [see Level Editor section](block-types.md#level-editor). |
 
-## Дополнительные типы (через кнопку «Другой»)
+## Additional Types (via "Other" Button)
 
-При нажатии кнопки **«Другой»** открывается расширенный список, где доступны ещё два важных типа:
+When clicking the **"Other"** button, an extended list opens with two more important types:
 
-| Тип | Назначение | Применение |
-|-----|-----------|------------|
-| **Структура** | Сложный составной тип данных | Позволяет создать **структуру** из нескольких полей (например, координата `x, y`; состав `ингредиент, количество`). После создания структуру можно использовать в **таблице свойств** или **таблице значений** в качестве типа колонки. Это позволяет хранить комплексные значения в одной ячейке. |
-| **Перечисление (enum)** | Набор предопределённых значений | Создаётся перечисление с вариантами (например, тип атаки: `физический`, `огненный`, `ледяной`, `молния`). Затем перечисление можно выбрать как тип колонки в таблице свойств или таблице значений. Пользователь сможет выбрать одно из значений через выпадающий список (обычный или радиокнопки). |
-| **Другой элемент** | Позволяет использовать любой элемент в проекте как **базовый шаблон** | Механика «шаблон → экземпляр» универсальна: вы можете создавать копии любых документов, сохраняя их структуру, блоки и настройки для быстрой работы [см. раздел Любой элемент как шаблон](game-objects-and-templates.md#любой-элемент-как-шаблон-универсальный-механизм) |
+| Type | Purpose | Usage |
+|------|---------|-------|
+| **Structure** | Complex composite data type | Allows creating a **structure** with multiple fields (e.g., coordinate `x, y`; composition `ingredient, quantity`). After creation, the structure can be used in a **properties table** or **values table** as a column type. This allows storing complex values in a single cell. |
+| **Enumeration (enum)** | Set of predefined values | Creates an enumeration with options (e.g., attack type: `physical`, `fire`, `ice`, `lightning`). The enumeration can then be selected as a column type in a properties table or values table. The user can choose one of the values from a dropdown (standard or radio buttons). |
+| **Other element** | Allows using any element in the project as a **base template** | The "template → instance" mechanism is universal: you can create copies of any documents, preserving their structure, blocks, and settings for quick work [see Any Element as a Template section](game-objects-and-templates.md#any-element-as-a-template-universal-mechanism) |
 
-## Примеры использования
+## Usage Examples
 
-**Пример структуры:**  
-Создайте структуру «Vector2» с полями `x` и `y` (тип `Число`). Затем в таблице свойств создайте колонку с типом «Структура» и выберите «Vector2». В ячейке можно будет ввести пару чисел `(10, 20)`, которые сохранятся как структурированный объект.
+**Example of a structure:**  
+Create a "Vector2" structure with fields `x` and `y` (type `Number`). Then in a properties table, create a column with type "Structure" and select "Vector2". In the cell, you can enter a pair of numbers `(10, 20)`, which will be saved as a structured object.
 
-**Пример перечисления:**  
-Создайте перечисление «Стихия» со значениями «Огонь», «Лёд», «Молния». Затем в таблице свойств создайте колонку с типом «Перечисление» и укажите «Стихия». В ячейках появится выпадающий список с вариантами.
+**Example of an enumeration:**  
+Create an "Element" enumeration with values "Fire", "Ice", "Lightning". Then in a properties table, create a column with type "Enumeration" and specify "Element". A dropdown with options will appear in the cells.

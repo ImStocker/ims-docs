@@ -1,54 +1,54 @@
 ---
 outline: deep
 ---
-# Общая структура файла элемента
+# General Element File Structure
 
-Каждый элемент (документ, игровой объект, блок, коллекция) представлен JSON-объектом следующего вида:
+Each element (document, game object, block, collection) is represented by a JSON object of the following form:
 
 
-```json
+```json5
 {
-  "id": "5db2ddf6-580b-4eb8-bd5b-9f6989d7b3ee",   // уникальный идентификатор элемента (UUID)
-  "projectId": "FPX6pFkX",                       // идентификатор проекта (короткий)
-  "title": "Warrior",                            // отображаемое имя
-  "name": "",                                    // служебное имя (используется при выгрузке)
-  "creatorUserId": 28,                           // ID создателя элемента
-  "isAbstract": false,                           // флаг абстрактного элемента (шаблон, от которого нельзя создать экземпляр)
+  "id": "5db2ddf6-580b-4eb8-bd5b-9f6989d7b3ee",   // unique element identifier (UUID)
+  "projectId": "FPX6pFkX",                       // project identifier (short)
+  "title": "Warrior",                            // display name
+  "name": "",                                    // internal name (used during export)
+  "creatorUserId": 28,                           // element creator ID
+  "isAbstract": false,                           // abstract element flag (template from which instances cannot be created)
   
-  "parentIds": [...],                            // список ID прямых родителей (базовый элемент / шаблон)
-  "typeIds": [...],                              // ID всей цепочки родителей (все предки)
+  "parentIds": [...],                            // list of direct parent IDs (base element / template)
+  "typeIds": [...],                              // IDs of the entire parent chain (all ancestors)
   
-  "createdAt": "2024-02-15T03:42:27.297Z",       // дата создания (ISO 8601)
-  "updatedAt": "2024-05-24T16:43:35.181Z",       // дата последнего обновления
+  "createdAt": "2024-02-15T03:42:27.297Z",       // creation date (ISO 8601)
+  "updatedAt": "2024-05-24T16:43:35.181Z",       // last update date
   
-  "workspaceId": "aa0f0949-53b2-47ef-b7ca-2fb4cc1d36f5", // ID папки, в которой лежит элемент
-  "ownIcon": null,                               // переопределение иконки (если есть)
-  "icon": "walk-fill",                           // имя иконки по умолчанию
-  "index": 4,                                    // порядок отображения (вещественное число)
+  "workspaceId": "aa0f0949-53b2-47ef-b7ca-2fb4cc1d36f5", // ID of the folder containing the element
+  "ownIcon": null,                               // icon override (if any)
+  "icon": "walk-fill",                           // default icon name
+  "index": 4,                                    // display order (floating-point number)
   
-  "values": { ... },                             // значения блоков, имеющих служебное имя
-  "blocks": [ ... ]                              // массив блоков, составляющих элемент
+  "values": { ... },                             // values of blocks with internal name
+  "blocks": [ ... ]                              // array of blocks comprising the element
 }
 ```
 
-**Ключевые поля для движка:**
+**Key fields for the engine:**
 
-* `id` – однозначная ссылка на элемент (используется в свойствах типа `Asset`).
+* `id` – unambiguous reference to the element (used in properties of type `Asset`).
 
-* `name` – служебное имя (если задано, то значение попадает в корневой объект `values`).
+* `name` – internal name (if set, the value goes into the root `values` object).
 
-* `parentIds` / `typeIds` – позволяют восстановить иерархию наследования (шаблоны и экземпляры).
+* `parentIds` / `typeIds` – allow restoring the inheritance hierarchy (templates and instances).
 
-* `values` – плоский объект, где ключи – служебные имена блоков, а значения – данные блоков [см. раздел Поля](#поля).
+* `values` – a flat object where keys are block internal names and values are block data [see Fields section](#fields-values-and-block-internal-names).
 
-* `blocks` – полный список блоков с их настройками (в том числе без служебных имён).
+* `blocks` – complete list of blocks with their settings (including those without internal names).
 
-## Поля `values` и служебные имена блоков
+## Fields `values` and block internal names
 
-Если блоку (таблице свойств, таблице значений, текстовому блоку и т.д.) в редакторе присвоено **служебное имя** (`name`), то его данные дублируются в корневой объект `values` под этим именем. Это удобно для быстрого доступа к ключевым данным элемента без необходимости разбирать весь массив `blocks`.
+If a block (property table, values table, text block, etc.) has an **internal name** (`name`) assigned in the editor, its data is duplicated in the root `values` object under that name. This is convenient for quick access to key element data without having to parse the entire `blocks` array.
 
-**Пример:**
-В игровом объекте созданы два свойства (`здоровье` и `атака`) внутри блока со служебным именем `props`. В JSON это выглядит так:
+**Example:**
+In a game object, two properties (`health` and `attack`) are created inside a block with the internal name `props`. In JSON this looks like:
 
 
 ```json
@@ -60,6 +60,6 @@ outline: deep
 }
 ```
 
-Движок может напрямую обратиться к `values.props.health` и `values.props.attack`.
+The engine can directly access `values.props.health` and `values.props.attack`.
 
-Если служебное имя не задано, данные блока присутствуют только внутри массива `blocks`.
+If no internal name is set, the block data is only present inside the `blocks` array.

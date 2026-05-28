@@ -1,23 +1,20 @@
+# IMS Creators Desktop — Documentation
+
+Tame your development chaos.
+
 ---
-# https://vitepress.dev/reference/default-theme-home-page
-layout: home
 
-hero:
-  name: "IMS Creators Desktop"
-  text: "Documentation"
-  tagline: Tame your development chaos
-  actions:
-    - theme: brand
-      text: Getting Started
-      link: /en/getting-started/start-screen
-    - theme: alt
-      text: Syncing with Engines
-      link: /en/integration
+## 🚀 Quick Start
 
-features:
-  - title: Getting Started
-    details: Learn the basics of the editor and create your first project
-  - title: Working on a Project
-    details: Structure large projects and easily manage content.
-  - title: Integration and Export
-    details:  Export data and integrate IMS into your engine
+- **[Getting Started](getting-started/start-screen.md)** — learn the editor basics and create your first project.
+- **[Engine Integration](integration/index.md)** — set up automatic data export to your game engine.
+
+## 📚 Sections
+
+| Section | Description |
+|---------|------------|
+| Getting Started | Learn the editor basics and create your first project |
+| Working on a Project | Structure large projects and manage content efficiently |
+| Integration and Export | Export data and integrate IMS into your engine |
+
+---

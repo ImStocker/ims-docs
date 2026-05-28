@@ -2,58 +2,58 @@
 outline: deep
 ---
 
-# Хранение сценариев (диалогов)
+# Script (Dialog) Storage
 
-Сценарии (диалоги, визуальные скрипты) хранятся в виде **графа** внутри блока типа `script`. Этот граф состоит из узлов (`nodes`), соединённых переходами (`next`), и может содержать переменные и настройки речи. Данные сценария полностью представлены в JSON и могут быть интерпретированы игровым движком напрямую.
+Scripts (dialogs, visual scripts) are stored as a **graph** inside a block of type `script`. This graph consists of nodes (`nodes`) connected by transitions (`next`), and may contain variables and speech settings. The script data is fully represented in JSON and can be interpreted directly by the game engine.
 
-## Общая структура графа сценария
+## General Script Graph Structure
 
-Граф описывается интерфейсом `ImscScriptGraph`:
+The graph is described by the `ImscScriptGraph` interface:
 
 ```typescript
 type ImscScriptGraph = {
-  start: string | null;                     // ID стартового узла
-  variables?: ImscScriptGraphVariables;     // переменные сценария
-  __settings?: ImscScriptGraphSettings;     // настройки речи
-  nodes: { [id: string]: ImscScriptGraphNode }; // словарь узлов
+  start: string | null;                     // ID of the start node
+  variables?: ImscScriptGraphVariables;     // script variables
+  __settings?: ImscScriptGraphSettings;     // speech settings
+  nodes: { [id: string]: ImscScriptGraphNode }; // node dictionary
 }
 ```
 
-* `start` – идентификатор узла, с которого начинается выполнение.
+* `start` – identifier of the node where execution begins.
 
-* `variables` – локальные переменные сценария ([см. раздел Переменные сценария](#переменные-сценария)).
+* `variables` – local script variables ([see Script Variables section](#script-variables)).
 
-* `__settings` – настройки полей для реплик и опций ([см. раздел Настройки речи специфичные для диалогов](#настройки-речи-специфичные-для-диалогов)).
+* `__settings` – field settings for speech lines and options ([see Dialog-Specific Speech Settings section](#dialog-specific-speech-settings)).
 
-* `nodes` – коллекция всех узлов, каждый узел имеет уникальный строковый ID (UUID).
+* `nodes` – collection of all nodes, each node has a unique string ID (UUID).
 
-## Типы узлов
+## Node Types
 
-|                                                      Тип узла                                                     |                    Назначение                   |                                            Поля                                            |
-|:-----------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------:|:------------------------------------------------------------------------------------------:|
-| start                                                                                                             | Точка входа в сценарий                          | `next: string \| null`                                                                       |
-| speech                                                                                                            | Реплика персонажа или текст с вариантами выбора | `next, subject: string, values?: ImscScriptGraphVals, options?: ImscScriptGraphNodeOption[]` |
-| trigger                                                                                                           | Вызов внешней функции движка (игровая логика)   | `next, subject: string, params?: { in?, out? }, values?`                                     |
-| branch                                                                                                            | Условное ветвление (две ветки)                  | `values: { condition: ImscScriptGraphVal }, options: [option, option]`                       |
-| getVar                                                                                                            | Чтение значения переменной                      | `values: { variable: string }`                                                               |
-| setVar                                                                                                            | Установка значения переменной                   | `next, values: { variable: string, value: ImscScriptGraphVal }`                              |
-| constAsset, constText, constString, constInteger, constFloat, constBoolean                                             | Константа (значение)                            | `values: { value: ... }`                                                                     |
-| opAnd, opOr, opMod, opDiv, opMult, opMinus, opPlus, opMoreEqual, opMore, opLessEqual, opLess, opNotEqual, opEqual | Бинарные операции                               | `values: { arg1, arg2 }`                                                                     |
-| opNot                                                                                                             | Унарное отрицание                               | `values: { arg1 }`                                                                           |
-| end                                                                                                               | Завершение сценария                             | (без полей)                                                                                |
+|                                                     Node Type                                                     |                   Purpose                   |                                           Fields                                           |
+|:----------------------------------------------------------------------------------------------------------------:|:------------------------------------------:|:-----------------------------------------------------------------------------------------:|
+| start                                                                                                             | Entry point into the script                | `next: string \| null`                                                                      |
+| speech                                                                                                            | Character line or text with choices        | `next, subject: string, values?: ImscScriptGraphVals, options?: ImscScriptGraphNodeOption[]` |
+| trigger                                                                                                           | Call external engine function (game logic) | `next, subject: string, params?: { in?, out? }, values?`                                    |
+| branch                                                                                                            | Conditional branching (two branches)       | `values: { condition: ImscScriptGraphVal }, options: [option, option]`                      |
+| getVar                                                                                                            | Read a variable value                      | `values: { variable: string }`                                                              |
+| setVar                                                                                                            | Set a variable value                       | `next, values: { variable: string, value: ImscScriptGraphVal }`                             |
+| constAsset, constText, constString, constInteger, constFloat, constBoolean                                        | Constant (value)                           | `values: { value: ... }`                                                                    |
+| opAnd, opOr, opMod, opDiv, opMult, opMinus, opPlus, opMoreEqual, opMore, opLessEqual, opLess, opNotEqual, opEqual | Binary operations                          | `values: { arg1, arg2 }`                                                                    |
+| opNot                                                                                                             | Unary negation                             | `values: { arg1 }`                                                                          |
+| end                                                                                                               | Script termination                         | (no fields)                                                                               |
 
-Все узлы наследуют базовые поля: `index` (порядок отрисовки), `pos: { x, y }` (координаты в редакторе), а также могут иметь `next` (ID следующего узла).
+All nodes inherit base fields: `index` (rendering order), `pos: { x, y }` (editor coordinates), and may also have `next` (ID of the next node).
 
-## Значения и привязки
+## Values and Bindings
 
-Поля `values` узлов могут содержать:
+Node `values` fields can contain:
 
-* **Прямые значения** – примитивы, объекты, массивы ([см. раздел Типы значений свойств (листовые типы)](block-structure.md#типы-значений-свойств-листовые-типы)).
+* **Direct values** – primitives, objects, arrays ([see Property Value Types (Leaf Types)](block-structure.md#property-value-types-leaf-types)).
 
-* **Привязки** (`ImscScriptGraphValBind`) – ссылки на результат другого узла:
-  `{ get: "uuid_узла", param: "имя_выходного_параметра" }`
+* **Bindings** (`ImscScriptGraphValBind`) – references to the result of another node:
+  `{ get: "node_uuid", param: "output_parameter_name" }`
 
-Пример из реального сценария (узел `condition` ветвления ссылается на результат узла `1c9c41e4...`):
+Example from a real script (branch `condition` node references the result of node `1c9c41e4...`):
 
 ```json
 "values": {
@@ -64,23 +64,23 @@ type ImscScriptGraph = {
 }
 ```
 
-## Переменные сценария
+## Script Variables
 
-Переменные описываются в поле `variables.own`:
+Variables are described in the `variables.own` field:
 
 ```typescript
 type ImscScriptGraphVarDef = {
-  name: string;           // служебное имя переменной
-  type: { Type: string }; // тип (integer, boolean, text и т.д.)
-  title: string;          // отображаемое имя
-  default?: any;          // значение по умолчанию
+  name: string;           // internal variable name
+  type: { Type: string }; // type (integer, boolean, text, etc.)
+  title: string;          // display name
+  default?: any;          // default value
   description?: string | null;
-  index: number;          // порядок
+  index: number;          // order
   autoFill?: boolean | null;
 }
 ```
 
-Пример:
+Example:
 
 ```json
 "variables": {
@@ -95,11 +95,11 @@ type ImscScriptGraphVarDef = {
 }
 ```
 
-## Настройки речи (специфичные для диалогов)
+## Dialog-Specific Speech Settings
 
-Поле `__settings.speech` определяет, какие поля могут быть добавлены к репликам (`main`) и опциям (`option`), а также их типы. Это позволяет расширять диалоги дополнительными параметрами (например, `tools`, `supplies`).
+The `__settings.speech` field defines which fields can be added to speech lines (`main`) and options (`option`), as well as their types. This allows extending dialogs with additional parameters (e.g., `tools`, `supplies`).
 
-Пример из JSON:
+Example from JSON:
 
 ```json
 "__settings": {
@@ -116,11 +116,11 @@ type ImscScriptGraphVarDef = {
 }
 ```
 
-Тогда в узле `speech` можно указывать `values.text` (основной текст), `values.additional` (дополнительный текст), а в опциях – `values.tools` (число инструментов, необходимое для выбора).
+Then in a `speech` node you can specify `values.text` (main text), `values.additional` (additional text), and in options – `values.tools` (number of tools required for selection).
 
-## Пример фрагмента реального сценария
+## Example Fragment of a Real Script
 
-Ниже показан узел `speech` с вариантами выбора (взят из примера события «Полусгнивший мост»):
+Below is a `speech` node with choice options (taken from the "Rotting Bridge" event example):
 
 ```json
 "f77540c8-5772-4136-a7ed-a913d411f313": {
@@ -159,34 +159,34 @@ type ImscScriptGraphVarDef = {
 }
 ```
 
-* Узел не имеет перехода `next` (показывает меню опций).
+* The node has no `next` transition (it shows an option menu).
 
-* Каждая опция содержит текст (`text`) и, возможно, условие видимости (`condition`) или дополнительную стоимость (`tools`).
+* Each option contains text (`text`) and possibly a visibility condition (`condition`) or additional cost (`tools`).
 
-* При выборе опции выполнение переходит в узел, указанный в `next` этой опции.
+* When an option is selected, execution transitions to the node specified in that option's `next`.
 
-## Исполнение сценария на движке
+## Script Execution in the Engine
 
-Для интерпретации графа и выполнения диалогов в веб-движках (Phaser, Pixi.js, Cocos и др.) разработана **JavaScript-библиотека** [`imsc-script-js`](https://github.com/ImStocker/imsc-script-js/). Она позволяет:
+For interpreting the graph and executing dialogs in web engines (Phaser, Pixi.js, Cocos, etc.), a **JavaScript library** [`imsc-script-js`](https://github.com/ImStocker/imsc-script-js/) has been developed. It allows:
 
-* Загружать JSON-описание сценария.
+* Loading a JSON script description.
 
-* Проходить по узлам, обрабатывать реплики, ветвления, вызовы триггеров.
+* Traversing nodes, processing speech lines, branches, trigger calls.
 
-* Управлять переменными.
+* Managing variables.
 
-* Интегрироваться с рендерингом и UI движка.
+* Integrating with engine rendering and UI.
 
-В планах – создание аналогичных модулей для других сред (Unity, Unreal, Godot). Однако, поскольку формат является **открытым JSON**, любой движок может реализовать собственный интерпретатор, следуя описанным типам.
+Similar modules for other environments (Unity, Unreal, Godot) are planned. However, since the format is **open JSON**, any engine can implement its own interpreter by following the described types.
 
-## Расположение в файле элемента
+## Location in the Element File
 
-Граф сценария хранится в **блоке типа `script`** внутри массива `blocks`. Пример из полного JSON:
+The script graph is stored in a **block of type `script`** inside the `blocks` array. Example from a full JSON:
 
 ```json
 {
   "blocks": [
-    ... // другие блоки (props, text и т.д.)
+    ... // other blocks (props, text, etc.)
     {
       "id": "c85e8ccf-1291-432e-8021-557c95d30e11",
       "name": "script",
@@ -198,4 +198,4 @@ type ImscScriptGraphVarDef = {
 }
 ```
 
-Если блоку `script` присвоено служебное имя (например, `"name": "dialog"`), его данные также будут доступны в `values.dialog` для быстрого доступа.
+If the `script` block is assigned an internal name (e.g., `"name": "dialog"`), its data will also be accessible in `values.dialog` for quick access.

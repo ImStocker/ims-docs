@@ -2,168 +2,168 @@
 outline: deep
 ---
 
-# Структура отдельного блока
+# Individual Block Structure
 
-Каждый элемент массива `blocks` имеет следующую структуру:
+Each element in the `blocks` array has the following structure:
 
 
-```json
+```json5
 {
-  "id": "d452c1c0-0a38-483d-91c3-41b376e14c74", // уникальный ID блока
-  "name": "",                                    // служебное имя блока (если есть)
-  "title": "Description",                        // отображаемый заголовок
-  "own": false,                                  // относится ли блок к данному элементу (false – унаследован от шаблона)
-  "type": "text",                                // тип блока (text, grid, properties, gallery, script, level и др.)
+  "id": "d452c1c0-0a38-483d-91c3-41b376e14c74", // unique block ID
+  "name": "",                                    // block internal name (if any)
+  "title": "Description",                        // display title
+  "own": false,                                  // whether the block belongs to this element (false – inherited from a template)
+  "type": "text",                                // block type (text, grid, properties, gallery, script, level, etc.)
   
-  "props": { ... },      // собственные значения блока (переопределённые в текущем элементе)
-  "inherited": { ... },  // унаследованные от шаблона значения
-  "computed": { ... },   // результирующие значения (объединение inherited и props, а в будущем – вычисленные формулы)
+  "props": { ... },      // block's own values (overridden in the current element)
+  "inherited": { ... },  // values inherited from the template
+  "computed": { ... },   // resulting values (union of inherited and props, and in the future – computed formulas)
   
-  "index": 3.42,                // порядок отображения
+  "index": 3.42,                // display order
   "createdAt": "2024-02-17T10:05:04.952Z",
   "updatedAt": "2024-05-24T16:43:35.181Z"
 }
 ```
 
-**Для движка рекомендуется использовать поле `computed`**, так как оно уже содержит итоговые значения с учётом наследования и (в перспективе) формул. Если `computed` отсутствует или требуется переопределённое значение, можно обратиться к `props`, а если его нет – к `inherited`.
+**For the engine, it is recommended to use the `computed` field**, as it already contains the final values taking inheritance and (prospectively) formulas into account. If `computed` is absent or an overridden value is required, you can look at `props`, or if that is absent – at `inherited`.
 
-## Типы значений свойств (листовые типы)
+## Property Value Types (Leaf Types)
 
-Все значения свойств внутри `props`, `inherited` и `computed` строго типизированы. Поддерживаются следующие типы (перечисление `AssetPropType`):
+All property values inside `props`, `inherited`, and `computed` are strictly typed. The following types are supported (`AssetPropType` enumeration): [Type Description (`AssetPropValueType`)](#type-description-assetpropvaluetype)
 
-### Форматированный текст (`AssetPropValueText`)
+### Formatted Text (`AssetPropValueText`)
 
 
 ```typescript
 type AssetPropValueText = {
-  Str: string;        // неформатированное текстовое представление
-  Ops: {              // массив операций форматирования (Delta-формат)
-    insert?: any;       // вставляемый текст или объект (изображение и т.п.)
-    attributes?: any;   // атрибуты (жирный, курсив, ссылка, цвет и др.)
+  Str: string;        // unformatted text representation
+  Ops: {              // array of formatting operations (Delta format)
+    insert?: any;       // inserted text or object (image, etc.)
+    attributes?: any;   // attributes (bold, italic, link, color, etc.)
   }[];
 };
 ```
 
-### Прикреплённый файл (`AssetPropValueFile`)
+### Attached File (`AssetPropValueFile`)
 
 ```typescript
 type AssetPropValueFile = {
-  FileId: string;   // UUID файла в хранилище
-  Title: string;    // имя файла
-  Size: number;     // размер в байтах
-  Dir: string | null; // относительный путь к папке внутри хранилища
-  Store: string;    // хранилище (например, "local" или "cloud")
+  FileId: string;   // file UUID in storage
+  Title: string;    // file name
+  Size: number;     // size in bytes
+  Dir: string | null; // relative path to folder within storage
+  Store: string;    // storage (e.g., "local" or "cloud")
 };
 ```
 
-### Произвольные данные (`AssetPropValueBlob`)
+### Arbitrary Data (`AssetPropValueBlob`)
 
 ```typescript
 type AssetPropValueBlob = {
-  Blob: any;       // содержимое (обычно закодировано в base64)
-  Type: string;    // MIME-тип или пользовательский тип
-  Key?: string;    // опциональный ключ для сравнения
+  Blob: any;       // content (usually base64 encoded)
+  Type: string;    // MIME type or custom type
+  Key?: string;    // optional comparison key
 };
 ```
 
-### Ссылка на элемент (`AssetPropValueAsset`)
+### Reference to an Element (`AssetPropValueAsset`)
 
 ```typescript
 type AssetPropValueAsset = {
-  AssetId: string;      // UUID целевого элемента
-  Title: string;        // отображаемое имя
-  Name: string | null;  // служебное имя (если есть)
-  Pid?: string;         // ID проекта (для внешнего элемента)
-  BlockId?: string | null; // ID конкретного блока внутри элемента
-  Anchor?: string | null;   // якорь (например, "#заголовок")
+  AssetId: string;      // UUID of the target element
+  Title: string;        // display name
+  Name: string | null;  // internal name (if any)
+  Pid?: string;         // project ID (for external elements)
+  BlockId?: string | null; // ID of a specific block within the element
+  Anchor?: string | null;   // anchor (e.g., "#heading")
 };
 ```
 
-### Ссылка на участника (`AssetPropValueAccount`)
+### Reference to a Member (`AssetPropValueAccount`)
 
 ```typescript
 type AssetPropValueAccount = {
-  AccountId: string;    // ID пользователя
-  Name: string;         // имя пользователя в проекте
+  AccountId: string;    // user ID
+  Name: string;         // user name in the project
 };
 ```
 
-### Значение перечисления (`AssetPropValueEnum`)
+### Enum Value (`AssetPropValueEnum`)
 
 ```typescript
 type AssetPropValueEnum = {
-  Enum: string;      // UUID перечисления (списка допустимых значений)
-  Name: string;      // служебное имя выбранного значения
-  Title: string;     // отображаемое имя выбранного значения
+  Enum: string;      // UUID of the enumeration (list of allowed values)
+  Name: string;      // internal name of the selected value
+  Title: string;     // display name of the selected value
 };
 ```
 
-### Ссылка на проект (`AssetPropValueProject`)
+### Reference to a Project (`AssetPropValueProject`)
 
 ```typescript
 type AssetPropValueProject = {
-  ProjectId: string;    // ID проекта
-  Title: string;        // название проекта
+  ProjectId: string;    // project ID
+  Title: string;        // project title
 };
 ```
 
-### Дата/время (`AssetPropValueTimestamp`)
+### Date/Time (`AssetPropValueTimestamp`)
 
 ```typescript
 type AssetPropValueTimestamp = {
-  Str: string;    // текстовое представление в формате ISO 8601 (например, "2024-05-24T16:43:35.181Z")
-  Ts: number;     // количество секунд с начала эпохи Unix (unix epoch time)
+  Str: string;    // text representation in ISO 8601 format (e.g., "2024-05-24T16:43:35.181Z")
+  Ts: number;     // number of seconds since Unix epoch
 };
 ```
 
-### Ссылка на папку (`AssetPropValueWorkspace`)
+### Reference to a Folder (`AssetPropValueWorkspace`)
 
 ```typescript
 type AssetPropValueWorkspace = {
-  WorkspaceId: string;    // UUID папки
-  Title: string;          // отображаемое имя
-  Name: string | null;    // служебное имя
-  Pid?: string;           // ID проекта, если папка находится во внешнем проекте
+  WorkspaceId: string;    // folder UUID
+  Title: string;          // display name
+  Name: string | null;    // internal name
+  Pid?: string;           // project ID if the folder is in an external project
 };
 ```
 
-### Выборка элементов (`AssetPropValueSelection`)
+### Element Selection (`AssetPropValueSelection`)
 
 ```typescript
 type AssetPropValueSelection = {
-  Str: string;                    // строковое представление выборки (например, "type=Enemy, health>50")
-  Select: any;                    // поля для выборки
-  Group: any;                     // поля группировки
-  Where: AssetPropWhere;          // условия фильтрации
-  Order?: { Field: string; Asc: boolean }[]; // порядок сортировки
-  Offset?: number;                // смещение (пагинация)
-  Count?: number;                 // количество запрашиваемых элементов
+  Str: string;                    // string representation of the selection (e.g., "type=Enemy, health>50")
+  Select: any;                    // selection fields
+  Group: any;                     // grouping fields
+  Where: AssetPropWhere;          // filter conditions
+  Order?: { Field: string; Asc: boolean }[]; // sort order
+  Offset?: number;                // offset (pagination)
+  Count?: number;                 // number of requested elements
 };
 ```
 
-### Описание типа (`AssetPropValueType`)
+### Type Description (`AssetPropValueType`)
 
 ```typescript
 type AssetPropValueType = {
-  Type: AssetPropType;        // базовый тип (из перечисления выше)
-  Kind?: string;              // уточнение (например, UUID перечисления для типа `enum`)
-  Of?: AssetPropValueType;    // тип элемента для массивов (аргумент типа)
+  Type: AssetPropType;        // base type (from the enumeration above)
+  Kind?: string;              // refinement (e.g., UUID of an enumeration for the `enum` type)
+  Of?: AssetPropValueType;    // element type for arrays (type argument)
 };
 ```
 
-### Пример чтения движком
+### Example of Engine Reading
 
-Допустим, в проекте создан игровой объект «Warrior» со следующими данными:
+Suppose a project has a game object "Warrior" with the following data:
 
-* Заголовок: `Warrior`
+* Title: `Warrior`
 
-* Блок «characteristics» (служебное имя `stats`) содержит свойства: `health = 100`, `attack = 10`.
+* Block "characteristics" (internal name `stats`) contains properties: `health = 100`, `attack = 10`.
 
-* Блок «inventory» (служебное имя `inv`) – таблица значений со списком предметов.
+* Block "inventory" (internal name `inv`) – a values table with a list of items.
 
-JSON-файл элемента будет включать:
+The element JSON file will include:
 
-```json
+```json5
 {
   "id": "5db2ddf6-580b-4eb8-bd5b-9f6989d7b3ee",
   "title": "Warrior",
@@ -173,20 +173,20 @@ JSON-файл элемента будет включать:
       "health": 100,
       "attack": 10
     },
-    "inv": [ ... ]   // данные таблицы значений
+    "inv": [ ... ]   // values table data
   },
   "blocks": [ ... ]
 }
 ```
 
-Движок может загрузить этот JSON и использовать:
+The engine can load this JSON and use:
 
 ```csharp
-// Псевдокод на C#
+// C# pseudocode
 var warriorJson = LoadJson("Warrior.json");
 int health = warriorJson["values"]["stats"]["health"]; // 100
 int attack = warriorJson["values"]["stats"]["attack"]; // 10
-var inventory = warriorJson["values"]["inv"];          // массив предметов
+var inventory = warriorJson["values"]["inv"];          // array of items
 ```
 
-Благодаря тому, что данные представлены в открытом JSON-формате, движки на любом языке программирования (C\+\+, C#, Python, JavaScript, Lua) легко интегрируются с системой.
+Since the data is presented in an open JSON format, engines in any programming language (C++, C#, Python, JavaScript, Lua) integrate easily with the system.

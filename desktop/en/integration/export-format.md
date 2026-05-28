@@ -1,82 +1,90 @@
 ---
 outline: deep
 ---
-# Экспорт в свой формат
+# Export to Custom Format
 
-Система позволяет выгружать элементы в различных форматах для дальнейшего использования в игровых движках. Кроме того, можно настроить **автоматический экспорт** – изменения в проекте будут автоматически экспортироваться в указанную папку.
+The system allows exporting elements in various formats for further use in game engines. Additionally, you can set up **automatic export** – changes in the project will be automatically exported to a specified folder.
 
-## Настройка собственного формата экспорта
+<div align="center">
+  <img src="../images/export_my_format_en.png" width="800" alt="Export to my format">
+</div>
 
-Если стандартных форматов недостаточно (например, нужен CSV-файл для Excel или кастомный JSON с ограниченным набором полей), вы можете создать **пользовательский формат экспорта**.
+## Setting Up a Custom Export Format
 
-### Создание нового формата
+If the standard formats are insufficient (e.g., you need a CSV file for Excel or a custom JSON with a limited set of fields), you can create a **custom export format**.
 
-1. В меню экспорта выберите **Свой формат»**.
+### Creating a New Format
 
-2. Нажмите **«Создать новый формат»**.
+<div align="center">
+  <img src="../images/create_my_format_en.png" width="400" alt="Create my format">
+</div>
 
-3. Введите **имя формата** (например, «Выгрузка персонажей для CSV»).
+1. In the export menu, select **«My Format»**.
 
-4. Укажите, к какому **типу элементов** (или конкретному шаблону) применяется этот формат. Например, можно выбрать базовый тип «Игровой объект» или конкретный шаблон «Персонаж». Формат будет доступен только для элементов этого типа.
+2. Click **«Create Format»**.
 
-### Выбор типа выходного формата (CSV или JSON)
+3. Enter the **format name** (e.g., "Character Export for CSV").
 
-**Для CSV:**
+4. Specify which **element type** (or specific template) this format applies to. For example, you can select the base type "Game Object" or a specific template "Character". The format will only be available for elements of this type.
 
-* Выберите **поля**, которые хотите экспортировать (из структуры выбранного типа элемента). Например, для персонажа: `health`, `attack`, `name`. Поля могут быть как плоскими, так и вложенными (например, `stats.health`).
+### Choosing the Output Format Type (CSV or JSON)
 
-* Укажите **разделитель**: запятая (`,`) или точка с запятой (`;`). Точка с запятой рекомендуется, если значения могут содержать запятые.
+**For CSV:**
 
-* Поставьте галочку **«Добавлять заголовки»** – первая строка CSV будет содержать имена полей.
+* Select the **fields** you want to export (from the structure of the selected element type). For example, for a character: `health`, `attack`, `name`. Fields can be both flat and nested (e.g., `stats.health`).
 
-* **(Опционально) Пост-обработка** – JS-код для преобразования данных перед записью ([см. раздел Пост-обработка данных с помощью JavaScript](#пост-обработка-данных-с-помощью-javascript)).
+* Specify the **delimiter**: comma (`,`) or semicolon (`;`). Semicolon is recommended if values may contain commas.
 
-**Для JSON:**
+* Check **«Add headers»** – the first row of the CSV will contain field names.
 
-* Выберите один из режимов:
+* **(Optional) Post-processing** – JS code to transform data before writing ([see Post-Processing Data with JavaScript](#post-processing-data-with-javascript)).
 
-  * **«Полный»** – экспортировать всю внутреннюю структуру элемента (включая служебные поля `id`, `createdAt` и т.д.).
+**For JSON:**
 
-  * **«Только значения»** – экспортировать только содержимое `values` ([см. раздел Поля values и служебные имена блоков](asset-structure.md#поля-values-и-служебные-имена-блоков)). Это самый чистый вариант для движка.
+* Select one of the modes:
 
-  * **«Выбранные поля»** – экспортировать только конкретные поля (аналогично CSV, но в формате JSON).
+  * **«Full»** – export the entire internal element structure (including service fields like `id`, `createdAt`, etc.).
 
-* **Группировка в один файл:**
+  * **«Values Only»** – export only the contents of `values` ([see Values Fields and Block Internal Names](asset-structure.md#values-fields-and-block-internal-names)). This is the cleanest option for the engine.
 
-  * Если галочка **включена** – при экспорте целой папки или нескольких элементов все они будут сохранены в **один** JSON-файл (массив объектов).
+  * **«Selected Fields»** – export only specific fields (similar to CSV, but in JSON format).
 
-  * Если галочка **выключена** – каждый элемент сохраняется в **отдельный** JSON-файл (название файла = служебное имя или `id`).
+* **Group into one file:**
 
-* **(Опционально) Пост-обработка** – JS-код для модификации данных перед сохранением.
+  * If the checkbox is **enabled** – when exporting an entire folder or multiple elements, they will all be saved in **one** JSON file (array of objects).
 
-### Сохранение формата
+  * If the checkbox is **disabled** – each element is saved in a **separate** JSON file (filename = internal name or `id`).
 
-После настройки нажмите **«Сохранить»**. Новый формат появится в меню экспорта для выбранного типа элементов.
+* **(Optional) Post-processing** – JS code to modify data before saving.
 
-## Пост-обработка данных с помощью JavaScript
+### Saving the Format
 
-Для гибкой кастомизации вы можете добавить **пост-обработчик** – небольшой JS-код, который выполняется перед записью файла. Код должен принимать объект данных элемента (в формате, соответствующем выбранному режиму) и возвращать преобразованный объект (или примитив, если это CSV-строка).
+After configuration, click **«Save»**. The new format will appear in the export menu for the selected element type.
 
-**Пример для CSV (преобразование полей):**
+## Post-Processing Data with JavaScript
+
+For flexible customization, you can add a **post-processor** – a small JS code snippet that runs before writing the file. The code should accept the element data object (in the format corresponding to the selected mode) and return the transformed object (or a primitive if it's a CSV string).
+
+**Example for CSV (field transformation):**
 
 
 ```javascript
 function process(data) {
-  // data – объект элемента в плоском виде (поля, выбранные для CSV)
+  // data – element object in flat form (fields selected for CSV)
   return {
     name: data.title,
-    hp: data.health * 2,      // увеличиваем здоровье вдвое
+    hp: data.health * 2,      // double the health
     attack: data.attack
   };
 }
 ```
 
-**Пример для JSON (удаление служебных полей):**
+**Example for JSON (removing service fields):**
 
 
 ```javascript
 function process(data) {
-  // data – полный объект элемента (если выбран режим «Полный»)
+  // data – full element object (if "Full" mode is selected)
   return {
     id: data.id,
     title: data.title,
@@ -85,64 +93,71 @@ function process(data) {
 }
 ```
 
-**Ограничения:**
+**Limitations:**
 
-* Код выполняется в безопасной изолированной среде (песочнице).
+* The code runs in a safe isolated environment (sandbox).
 
-* Доступны только стандартные возможности JavaScript (ES2020).
+* Only standard JavaScript features (ES2020) are available.
 
-* Вызовы внешних API, работа с файловой системой, сетевые запросы запрещены.
+* External API calls, file system access, and network requests are prohibited.
 
-* Код должен быть синхронным и возвращать значение.
+* The code must be synchronous and return a value.
 
-## Выгрузка с использованием пользовательского формата
+## Export Using a Custom Format
 
-1. Выберите один или несколько элементов (или целую папку) в дереве проекта.
+<div align="center">
+  <img src="../images/upload_with_custom_format_en.png" alt="Export in custom format">
+</div>
 
-2. Щёлкните правой кнопкой мыши → **«Экспорт»** → выберите ваш сохранённый формат.
+1. Select one or more elements (or an entire folder) in the project tree.
 
-3. В диалоговом окне укажите **папку назначения**.
+2. Right-click → **«Export»** → choose your saved format.
 
-4. Нажмите **«Экспортировать»**.
+3. In the dialog, specify the **destination folder**.
 
-Система создаст файл(ы) в указанном формате в выбранной папке. При экспорте папки с включённой группировкой будет создан один файл, содержащий массив всех элементов.
+4. Click **«Export»**.
 
-## Автоматический экспорт
+The system will create file(s) in the specified format in the selected folder. When exporting a folder with grouping enabled, a single file containing an array of all elements will be created.
 
-Чтобы не экспортировать вручную каждый раз после изменений, можно настроить **автоматический экспорт**:
+## Automatic Export
 
-1. Нажмите на кнопку **Настроить автоэкспорт** в меню
+<div align="center">
+  <img src="../images/custom_autoexport_en.png" alt="Automatic export">
+</div>
 
-2. В открывшейся форме создайте одну или несколько конфигураций экспорта
+To avoid manual export after every change, you can set up **automatic export**:
 
-3. Нажмите кнопку "Экспорт" и выберите папку
+1. Click the **Configure auto-export** button in the menu
 
-4. Включите галочку "Экспортировать автоматически"
+2. In the opened form, create one or more export configurations
 
-После этого **любое изменение элемента** (или элементов внутри папки) будет **автоматически** записываться в те же файлы в указанной папке. Экспорт происходит в фоновом режиме сразу после сохранения изменений в проекте.
+3. Click the "Export" button and select a folder
 
-**Пример использования:**
+4. Check the "Export automatically" checkbox
 
-* Вы настроили CSV-формат для выгрузки всех персонажей.
+After this, **any change to an element** (or elements inside a folder) will be **automatically** written to the same files in the specified folder. Export happens in the background immediately after saving changes to the project.
 
-* Включили автоматическую синхронизацию в папку `D:\GameProject\Characters`.
+**Example usage:**
 
-* Ваш игровой движок отслеживает изменения в этой папке (например, через `FileSystemWatcher` в C# или таймер перечитывания в C\+\+).
+* You set up a CSV format for exporting all characters.
 
-* При каждом изменении здоровья персонажа в редакторе CSV-файл обновляется – и игра сразу использует новое значение без перезапуска.
+* Enabled automatic synchronization to the folder `D:\GameProject\Characters`.
 
-::: tip
-Автоматическая синхронизация идеально подходит для итеративной разработки – вы правите данные в удобном редакторе, а движок мгновенно получает обновления без дополнительных действий.
-:::
+* Your game engine monitors changes in this folder (e.g., via `FileSystemWatcher` in C# or a re-reading timer in C++).
 
-## Рекомендации по интеграции с движком
+* Every time a character's health changes in the editor, the CSV file updates – and the game immediately uses the new value without restarting.
 
-* **Для CSV** – удобно экспортировать табличные данные (списки предметов, параметры персонажей). Движок может загружать CSV как простые таблицы. При этом используйте пост-обработку для приведения типов.
+> [!TIP]
+> Automatic synchronization is ideal for iterative development – you edit data in a convenient editor, and the engine instantly receives updates without additional steps.
 
-* **Для JSON** – рекомендован для сложных иерархических данных. Используйте режим **«Только значения»** или **«Выбранные поля»**, чтобы не захламлять движок служебными ID и датами.
+## Recommendations for Engine Integration
 
-* **Автоматический экспорт** – настройте её на папку, которую движок мониторит. Это позволит перезагружать данные на лету.
+* **For CSV** – convenient for exporting tabular data (item lists, character parameters). The engine can load CSV as simple tables. Use post-processing for type conversion.
 
-* **Пост-обработка** – помогает адаптировать данные под конкретный API движка: переименовать поля, объединить значения, рассчитать производные параметры, фильтровать ненужные элементы.
+* **For JSON** – recommended for complex hierarchical data. Use **«Values Only»** or **«Selected Fields»** mode to avoid cluttering the engine with service IDs and dates.
 
-* **Производительность** – избегайте экспорта огромных коллекций в один файл, если движок перечитывает его целиком. В таких случаях используйте режим «отдельные файлы» или разбивайте данные на несколько форматов.
+* **Automatic export** – point it to a folder that the engine monitors. This allows reloading data on the fly.
+
+* **Post-processing** – helps adapt data to the engine's specific API: rename fields, merge values, calculate derived parameters, filter unnecessary elements.
+
+* **Performance** – avoid exporting large collections into a single file if the engine re-reads it entirely. In such cases, use the "separate files" mode or split data across multiple formats.

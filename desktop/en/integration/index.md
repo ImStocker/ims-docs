@@ -1,11 +1,11 @@
 ---
 outline: deep
 next: 
-  text: 'Общая структура файла элемента'
-  link: '/ru/integration/asset-structure'
+  text: 'General Element File Structure'
+  link: '/en_/integration/asset-structure'
 ---
-# Интеграция с движком
+# Engine Integration
 
-Проекты и все их элементы сохраняются в виде обычных **JSON-файлов**. Благодаря этому любой игровой движок (Unity, Unreal Engine, Godot, собственный движок, веб-движки на базе Phaser, Pixi.js и т.д.) может напрямую читать файлы проекта, импортировать данные и использовать их в игре без дополнительных конвертеров.
+Projects and all their elements are saved as regular **JSON files**. Thanks to this, any game engine (Unity, Unreal Engine, Godot, a custom engine, web engines based on Phaser, Pixi.js, etc.) can directly read project files, import data, and use it in the game without additional converters.
 
-Данный раздел описывает структуру JSON-файла элемента, типы полей, правила выгрузки, а также специфику хранения сценариев (диалогов) и уровней.
+This section describes the structure of the element JSON file, field types, export rules, as well as the specifics of storing scripts (dialogs) and levels.

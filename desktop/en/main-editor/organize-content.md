@@ -1,89 +1,119 @@
 ---
 outline: deep
 ---
-# Организация содержимого
+# Content Organization
 
-По мере роста проекта количество элементов увеличивается. Для удобной навигации, структурирования и массовой работы с данными в системе предусмотрены два основных инструмента: **папки** и **коллекции**. 
-<img src="../images/folders_collect.png" alt="папка" width="270">
+As a project grows, the number of elements increases. For convenient navigation, structuring, and bulk work with data, the system provides two main tools: **folders** and **collections**.
 
-## Папки
+<div align="center">
+  <img src="../images/folders_collect_en.png" alt="folder" width="270">
+</div>
 
-Папки предназначены для **группировки любых элементов** (документов, игровых объектов, блоков, сценариев и т.д.) **без ограничений по типу**. В одной папке могут находиться элементы разных типов.
+## Folders
 
-**Создание папки:**
-- В левой панели (дереве проекта) нажмите кнопку справа от "Создать элемент" и выберите тип **«Папка»**.
-- Задайте имя папки (например, «Персонажи», «Локации», «Диалоги», «Артефакты»).
+Folders are designed for **grouping any elements** (documents, game objects, blocks, scripts, etc.) **without type restrictions**. A single folder can contain elements of different types.
 
-**Использование папок:**
-- Перетаскивайте существующие элементы в папку и обратно.
-- Внутри папок можно создавать **вложенные папки** (любая глубина вложенности).
-- Папки помогают организовать проект по смысловым разделам, не смешивая разнородные элементы.
+**Creating a folder:**
+- In the left panel (project tree), click the button to the right of "Create element" and select the **"Folder"** type.
+- Set the folder name (e.g., "Characters", "Locations", "Dialogs", "Artifacts").
 
-<img src="../images/foldert.png" alt="папка" width="270" >
+**Using folders:**
+- Drag existing elements into and out of folders.
+- You can create **nested folders** inside folders (any depth of nesting).
+- Folders help organize a project by meaningful sections without mixing heterogeneous elements.
 
-## Коллекции
+<div align="center">
+  <img src="../images/foldert_en.png" alt="folder" width="270" >
+</div>
 
-**Коллекция** — это особый вид папки, которая **привязана к конкретному типу элементов** (или к конкретному элементу-образцу). Все элементы, создаваемые внутри коллекции, автоматически создаются как **экземпляры** от этого образца [см. раздел Любой элемент как шаблон (универсальный механизм)](game-objects-and-templates.md#любой-элемент-как-шаблон-универсальный-механизм).
+## Collections
 
-**Как создать коллекцию:**
-1. В дереве проекта нажмите кнопку справа от "Создать элемент".
-2. Выберите тип **«Коллекция»**.
-3. Укажите **исходный элемент** (образец), от которого будут браться структура и содержимое. Это может быть:
-   - игровой объект (например, «Базовый персонаж»);
-   - текстовый документ (например, «Шаблон квеста»);
-   - чек-лист, диаграмма, сценарий, структура, перечисление — любой элемент.
-4. Задайте имя коллекции (например, «Команда героев»).
+**Collection** is a special type of folder that is **bound to a specific element type** (or to a specific reference element). All elements created inside a collection are automatically created as **instances** of that reference [see Any Element as a Template (Universal Mechanism) section](game-objects-and-templates.md#any-element-as-a-template-universal-mechanism).
 
-**Особенности работы с коллекциями:**
+**How to create a collection:**
+1. In the project tree, click the button to the right of "Create element".
+2. Select the **"Collection"** type.
+3. Specify the **source element** (reference) from which the structure and content will be taken. This can be:
+   - a game object (e.g., "Base Character");
+   - a text document (e.g., "Quest Template");
+   - a checklist, diagram, script, structure, enumeration — any element.
+4. Set the collection name (e.g., "Quests").
 
-- **Массовое редактирование** — вы можете открыть коллекцию в виде **таблицы**, где строки — это элементы коллекции, а столбцы — их свойства. Это позволяет быстро менять значения у многих элементов одновременно (например, повысить уровень здоровья всем персонажам в коллекции).
-- **Редактирование отдельных элементов** — каждый элемент коллекции можно открыть как обычный элемент и изменить его индивидуально (в том числе добавить уникальные блоки, не влияя на остальных).
-- **Автоматическая типизация** — при создании нового элемента внутри коллекции вам не нужно каждый раз выбирать тип; он задаётся коллекцией.
-- **Массовое добавление** — можно создать сразу несколько элементов в коллекции, указав только имена.
+<div align="center">
+  <img src="../images/quests_en.png" alt="quests" >
+</div>
 
-**Пример:**
-1. Создайте шаблон экземпляра «Персонаж» со свойствами `здоровье`, `атака`, `мана`.
-2. Создайте коллекцию «Игровые персонажи», привязанную к шаблону «Персонаж».
-3. Добавьте в коллекцию трёх персонажей: «Воин», «Маг», «Лучник».
-4. Откройте коллекцию как таблицу — вы увидите три строки и столбцы `здоровье`, `атака`, `мана`.
-5. Измените значение `здоровье` для всех трёх на 150 — изменения применятся мгновенно.
-6. Если открыть "Способности" «Мага» как отдельный элемент, можно добавить ему уникальный блок «Заклинания», не затрагивая других.
+**Working with collections:**
 
-::: tip
-Коллекции не являются простыми папками. Они требуют указания базового типа/шаблона. Если вам нужна простая группировка без типизации, используйте обычную папку.
-:::
+- **Bulk editing** — you can open a collection as a **table**, where rows are collection elements and columns are their properties. This allows quickly changing values across many elements simultaneously (e.g., increasing the health level for all characters in a collection).
+- **Editing individual elements** — each collection element can be opened as a regular element and modified individually (including adding unique blocks without affecting others).
+- **Automatic typing** — when creating a new element inside a collection, you don't need to select a type each time; it is determined by the collection.
+- **Bulk addition** — you can create multiple elements in a collection at once by specifying only names.
 
-Внутри коллекции вы можете создавать папки, они будут также привязаны к типу коллекции
+**Example:**
+1. Create a "Character" instance template with properties `health`, `attack`, `mana`.
+2. Create a "Game Characters" collection bound to the "Character" template.
+3. Add three characters to the collection: "Warrior", "Mage", "Archer".
+4. Open the collection as a table — you will see three rows and columns `health`, `attack`, `mana`.
+5. Change the `health` value for all three to 150 — changes apply instantly.
+6. If you open "Mage's" abilities as a separate element, you can add a unique "Spells" block to them without affecting others.
 
-## Рекомендации по организации
+> [!TIP]
+> When creating an instance, the original element remains a regular element, but now functions as a template. You can continue editing it, and all changes (except overridden fields) will be automatically passed to instances. If you delete the template, instances are not deleted but lose their connection to it (becoming independent).
 
-Чтобы проект оставался понятным и удобным для сопровождения, следуйте этим рекомендациям:
+You can create folders inside a collection; they will also be bound to the collection type
 
-| Проблема | Решение |
-|----------|---------|
-| **Разнородные элементы** (черновики, архивы, справочные материалы) | Используйте **папки**. |
-| **Однородные наборы элементов одного типа** (список врагов, инвентарь, набор квестов) | Используйте **коллекции** — это упрощает массовое редактирование и контроль целостности. |
-| **Слишком глубокая вложенность** | Не создавайте более 3–5 уровней вложенности папок, иначе навигация станет неудобной. |
-| **Непонятные названия** | Давайте папкам и коллекциям осмысленные имена, отражающие их содержимое. Избегайте имён вроде «Новая папка». |
-| **Нужна дополнительная группировка внутри типа** | Можно создавать папки внутри коллекций — это позволяет группировать элементы, сохраняя привязку к типу. Например, коллекция «Враги» → папка «Боссы» → папка «Моб-боссы». |
-| **Проект захламлён неиспользуемыми элементами** | Удаляйте или архивируйте старые элементы, чтобы проект не разрастался и не замедлял работу. |
+## Mentions and Quick Links
 
-**Пример комбинированной структуры:**
+To speed up communication and navigation in the project, a system of mentions and links using special symbols is implemented.
+
+### Mentioning Members
+To address a specific person in a discussion, comment, element description, or task, use the `@` symbol and start typing the name.  
+Example: `@ivanov` – the selected user will receive a notification.
+
+### Links to Elements and Tasks
+For quick navigation to any element, folder, or task, use the `#` symbol and identifier (displayed in the address bar or object card).  
+Examples:
+- `#task-42` – creates a clickable link to the task with identifier `task-42`
+- `#char/main-hero` – link to the "Main Hero" element in the `char` folder
+
+The system will automatically substitute the object name and format the link. When such code is inserted into text, all participants can instantly navigate to the desired element or task.
+
+### How It Works
+- In input fields with formatting support (discussions, comments, descriptions), simply type `@` or `#` – a dropdown list will appear for selection.
+- When mentioning a user or inserting a link to an element/task, interested parties automatically receive a notification (if the corresponding settings are enabled).
+
+This way, you can gather context from different corners of the project in a single message, connecting people, elements, and tasks without manually copying long paths.
+
+## Organization Recommendations
+
+To keep your project understandable and maintainable, follow these recommendations:
+
+| Problem | Solution |
+|---------|----------|
+| **Heterogeneous elements** (drafts, archives, reference materials) | Use **folders**. |
+| **Homogeneous sets of elements of the same type** (enemy list, inventory, quest set) | Use **collections** — this simplifies bulk editing and integrity control. |
+| **Too deep nesting** | Do not create more than 3–5 levels of folder nesting, otherwise navigation becomes inconvenient. |
+| **Unclear names** | Give folders and collections meaningful names reflecting their contents. Avoid names like "New Folder". |
+| **Need additional grouping within a type** | You can create folders inside collections — this allows grouping elements while preserving the type binding. For example, collection "Enemies" → folder "Bosses" → folder "Mob Bosses". |
+| **Project cluttered with unused elements** | Delete or archive old elements to prevent the project from growing too large and slowing down work. |
+
+**Example of a combined structure:**
 
 ```
-Проект «Dark Fantasy»
-├─ Коллекция «Персонажи» (тип: Базовый персонаж)
-│ ├─ Герои
-│ │ ├─ Воин
-│ │ └─ Маг
-│ └─ Враги
-│   ├─ Гоблин
-│   └─ Орк
-├─ Коллекция «Квесты» (тип: Шаблон квеста)
-│ ├─ Основной квест
-│ └─ Побочные
-└─ Папка «Архив» (для старых версий)
-└─ Устаревшие персонажи
+Project "Dark Fantasy"
+├─ Collection "Characters" (type: Base Character)
+│ ├─ Heroes
+│ │ ├─ Warrior
+│ │ └─ Mage
+│ └─ Enemies
+│   ├─ Goblin
+│   └─ Orc
+├─ Collection "Quests" (type: Quest Template)
+│ ├─ Main Quest
+│ └─ Side Quests
+└─ Folder "Archive" (for old versions)
+└─ Deprecated Characters
 ```
 
-Такая организация позволяет быстро находить нужные элементы, эффективно редактировать группы объектов и поддерживать порядок в проекте любого масштаба.
+Such an organization allows quickly finding the needed elements, efficiently editing groups of objects, and maintaining order in a project of any scale.

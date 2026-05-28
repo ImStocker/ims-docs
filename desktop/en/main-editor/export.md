@@ -1,12 +1,14 @@
-# **Экспорт**
+# **Export**
 
 
-Щёлкните правой кнопкой мыши по любому элементу (или нажмите на три точки рядом с ним) и выберите **«Экспорт»**. Доступны следующие варианты:
+Right-click on any element (or click the three dots next to it) and select **«Export»**. The following options are available:
 
-* **Markdown (.md)** – экспорт в текстовый формат с разметкой Markdown. Удобно для публикации документации или вставки в вики.
+* **Markdown (.md)** – export to a text format with Markdown markup. Convenient for publishing documentation or inserting into a wiki.
 
-* **PDF (.pdf)** – экспорт в документ PDF (сохраняет форматирование, подходит для печати и распространения).
+* **PDF (.pdf)** – export to a PDF document (preserves formatting, suitable for printing and distribution).
 
-* **JSON (.json)** – экспорт в нативный формат системы (полная копия внутренних данных, совпадает с форматом хранения на диске).
+* **JSON (.json)** – export to the system's native format (a complete copy of the internal data, matching the on-disk storage format).
 
-> **Важно:** JSON-формат полностью совпадает с внутренним представлением элемента. Его можно использовать для резервного копирования, импорта обратно в систему или для интеграции с движками, поддерживающими чтение JSON. Если стандартного JSON недостаточно, создайте **экспорт в свой формат** — [см. раздел «Экспорт в свой формат»](../integration/export-format.md).
+<img src="../images/export_en.png" alt="export">
+
+> **Important:** The JSON format completely matches the internal representation of the element. It can be used for backup, re-importing into the system, or for integration with engines that support reading JSON. If standard JSON is not enough, create an **export to your own format** — [see "Export to Custom Format" section](../integration/export-format.md).

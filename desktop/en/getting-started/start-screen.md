@@ -1,18 +1,22 @@
 ---
 outline: deep
 ---
-# Стартовый экран
+# Start Screen
 
-При запуске программы открывается **стартовый экран**, который служит стартовой точкой для всех операций. На нём доступны следующие возможности:
+<div align="center">
+  <img src="../images/create_screen_en.png" alt="creating a new project">
+</div>
 
-* **Создать новый проект** – начать работу с чистого листа или на основе одного из встроенных шаблонов.
+When you launch the program, the **start screen** opens, which serves as the starting point for all operations. The following options are available:
 
-* **Открыть существующую папку как проект** – выбрать любую папку на компьютере; программа будет работать с её содержимым как с проектом (все вложенные элементы станут доступны в дереве проекта).
+* **Create a new project** – start from scratch or based on one of the built-in templates.
 
-* **Открыть облачный проект** – загрузить проект, ранее сохранённый в облаке. После загрузки он становится доступен как локальный проект для дальнейшей работы.
+* **Open an existing folder as a project** – select any folder on your computer; the program will work with its contents as a project (all nested elements become available in the project tree).
 
-* **Сменить тему** – переключение между **тёмной** и **светлой** темой интерфейса 
+* **Open a cloud project** – load a project previously saved to the cloud. After loading, it becomes available as a local project for further work.
 
-* **Выбрать язык** – вы можете изменить язык интерфейса.
+* **Switch theme** – switch between **dark** and **light** interface themes
 
-Если вы уже работали в программе, то в левой части стартового экрана будет расположен список **«Ранее открытые проекты»**. Вы можете кликнуть на любой из них, чтобы быстро продолжить работу в нем
+* **Select language** – you can change the interface language.
+
+If you have worked in the program before, the left side of the start screen will display a **"Recently opened projects"** list. You can click on any of them to quickly resume working.

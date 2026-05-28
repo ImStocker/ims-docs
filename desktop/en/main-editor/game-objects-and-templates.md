@@ -1,54 +1,53 @@
 ---
 outline: deep
 ---
-# Игровые объекты и шаблоны
+# Game Objects and Templates
 
-В системе существует специальный тип элементов — **игровые объекты**. Это готовые, предварительно сконфигурированные сущности, которые включают в себя иллюстрирующую картинку, описание и набор свойств, характерных для игровых единиц (персонажи, предметы, враги и т.п.). 
+The system has a special type of elements — **game objects**. These are pre-configured entities that include an illustrative image, a description, and a set of properties typical for game units (characters, items, enemies, etc.).
 
-Однако механика «шаблон → экземпляр» работает **для любого элемента**, независимо от его типа (текстовый документ, таблица, чек-лист, диаграмма, сценарий и т.д.). Игровые объекты — лишь частный, но наглядный пример.ы
+However, the "template → instance" mechanism works **for any element**, regardless of its type (text document, table, checklist, diagram, script, etc.). Game objects are just a specific, though illustrative, example.
 
-## Базовый объект-шаблон
+## Base Template Object
 
-Базовый объект (шаблон) определяет **структуру** и **стандартные значения** свойств для всех объектов определённого типа.
+A base object (template) defines the **structure** and **default values** of properties for all objects of a certain type.
 
-**Как создать базовый шаблон игрового объекта:**
-1. В дереве проекта выберите команду создания нового элемента.
-2. В качестве типа укажите «Игровой объект».
+**How to create a base game object template:**
+1. In the project tree, select the command to create a new element.
+2. As the type, specify "Game Object".
 
-<img src="../images/create_game_object.png" alt="создание игровой объект" width="480">
+<img src="../images/create_game_object_en.png" alt="creating a game object" width="480">
 
-3. Задайте имя шаблона, например «Базовый персонаж».
-4. Настройте структуру шаблона: добавьте нужные блоки (таблицу свойств с параметрами здоровья, силы, маны; галерею с портретом; текстовое описание и т.д.).
-5. Заполните стандартные значения свойств (например, `здоровье = 100`, `сила = 10`).
+3. Set the template name, e.g., "Base Character".
+4. Configure the template structure: add the necessary blocks (a properties table with health, strength, mana parameters; a gallery with a portrait; a text description, etc.).
+5. Fill in the default property values (e.g., `health = 100`, `strength = 10`).
 
-После этого шаблон можно использовать для создания конкретных объектов (экземпляров).
+After this, the template can be used to create specific objects (instances).
 
 
-## Создание экземпляра объекта
+## Creating an Object Instance
 
-Экземпляр (конкретный персонаж или предмет) создаётся **на основе существующего элемента**. Он автоматически наследует всю структуру и стандартные значения от родительского элемента, который автоматически начинает играть роль шаблона.
+An instance (a specific character or item) is created **based on an existing element**. It automatically inherits the entire structure and default values from the parent element, which automatically starts acting as a template.
 
-**Как создать экземпляр:**
-1. Нажмите правой кнопкой мыши на любом элементе (шаблоне) в дереве проекта.
-2. Выберите команду **«Создать экземпляр»**.
-3. Укажите имя экземпляра (например, «Орк-воин»).
-4. При необходимости измените **начальные значения свойств**, чтобы они отличались от шаблонных (например, увеличить здоровье или заменить картинку).
+**How to create an instance:**
+1. Right-click on any element (template) in the project tree.
+2. Select the **"Create instance"** command.
+3. Specify the instance name (e.g., "Orc Warrior").
+4. If needed, change the **initial property values** to differ from the template values (e.g., increase health or replace the image).
 
-Все экземпляры отображаются в дереве проекта и могут редактироваться как обычные элементы. Исходный элемент при этом **не требует никакого специального переключения в режим «шаблон»**. Он остаётся обычным элементом, но теперь от него создан хотя бы один экземпляр.
+All instances are displayed in the project tree and can be edited like regular elements. The original element **does not require any special switching to "template" mode**. It remains a regular element, but now at least one instance has been created from it.
 
-## Любой элемент как шаблон (универсальный механизм)
+## Any Element as a Template (Universal Mechanism)
 
-Система позволяет создать экземпляр **от любого существующего элемента**, независимо от его типа. Вам не нужно предварительно «назначать» элемент шаблоном – достаточно вызвать команду «Создать экземпляр».
+The system allows creating an instance **from any existing element**, regardless of its type. You don't need to pre-"designate" an element as a template – just invoke the "Create instance" command.
 
-**Примеры использования универсального механизма:**
+**Examples of using the universal mechanism:**
 
-- **Шаблон типового документа** – создайте документ «Структура ТЗ» с типовыми блоками. Создайте от него экземпляр «ТЗ для модуля А» и измените текст. Позже обновите исходный шаблон — изменения подтянутся во все экземпляры, где не было ручных правок.
-- **Шаблон чек-листа** – сделайте стандартный список «Перед релизом». От него создавайте экземпляры для каждой версии.
-- **Шаблон сценария диалога** – напишите логику типового диалога, от него создавайте экземпляры с разными репликами.
-- **Шаблон локации** – задайте базовую форму уровня и создавайте на его основе экземпляры уровней
+- **Standard document template** – create a "Spec Structure" document with standard blocks. Create an instance "Spec for Module A" and change the text. Later update the original template — changes will propagate to all instances where no manual edits were made.
+- **Checklist template** – make a standard "Before Release" list. Create instances for each version from it.
+- **Dialog script template** – write the logic of a standard dialog, create instances with different lines from it.
+- **Location template** – set a basic level layout and create level instances based on it
 
-::: tip 
-При создании экземпляра исходный элемент остаётся обычным элементом, но теперь он выполняет функцию шаблона. Вы можете продолжать его редактировать, и все изменения (кроме переопределённых полей) будут автоматически передаваться экземплярам. Если вы удалите шаблон, экземпляры не удаляются, но теряют связь с ним (становятся самостоятельными).
-:::
+> [!TIP]
+> When creating an instance, the original element remains a regular element, but now functions as a template. You can continue editing it, and all changes (except overridden fields) will be automatically passed to instances. If you delete the template, instances are not deleted but lose their connection to it (becoming independent).
 
- Экземпляры могут создаваться не только от прямых шаблонов, но и от других экземпляров, образуя иерархию наследования. Это позволяет строить глубокие цепочки переопределений.
+ Instances can be created not only from direct templates but also from other instances, forming an inheritance hierarchy. This allows building deep chains of overrides.

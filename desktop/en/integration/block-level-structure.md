@@ -2,53 +2,53 @@
 outline: deep
 ---
 
-# Хранение уровня
+# Level Storage
 
-Блок типа `level` (или `levelEditor`) предназначен для визуального проектирования игровых уровней. Он представляет собой **холст**, на котором размещаются различные **фигуры** (объекты): полигоны, изображения, эллипсы, указатели на элементы проекта и т.д. Данные уровня хранятся в виде плоского словаря объектов, каждый из которых имеет координаты, тип, параметры отрисовки и, возможно, ссылку на элемент.
+A block of type `level` (or `levelEditor`) is designed for visual game level design. It is a **canvas** on which various **shapes** (objects) are placed: polygons, images, ellipses, pointers to project elements, etc. Level data is stored as a flat dictionary of objects, each with coordinates, type, rendering parameters, and possibly a reference to an element.
 
-## Общая структура блока
+## General Block Structure
 
-Блок уровня находится внутри массива `blocks` элемента (или может быть единственным блоком при создании элемента типа «Уровень»). Содержимое хранится в поле `props` (или `computed`) и имеет следующую структуру:
+A level block is located inside the element's `blocks` array (or may be the only block when creating a "Level" type element). The content is stored in the `props` (or `computed`) field and has the following structure:
 
 ```json
 {
   "objects": {
-    "uuid-объекта-1": { ... },
-    "uuid-объекта-2": { ... }
+    "uuid-of-object-1": { ... },
+    "uuid-of-object-2": { ... }
   }
 }
 ```
 
-Ключи словаря — уникальные идентификаторы объектов (UUID), значения — описания фигур.
+The dictionary keys are unique object identifiers (UUIDs), the values are shape descriptions.
 
-## Базовые поля всех объектов
+## Common Fields for All Objects
 
-Каждый объект на холсте имеет обязательные и опциональные поля:
+Each object on the canvas has mandatory and optional fields:
 
-|      Поле      |          Тип          |                                 Описание                                |
+|      Field      |         Type          |                                Description                               |
 |:--------------:|:---------------------:|:-----------------------------------------------------------------------:|
-| id             | string (UUID)         | Уникальный идентификатор объекта (совпадает с ключом в словаре)         |
-| type           | string                | Тип фигуры: "polygon", "image", "pointer", "ellipse", "rectangle" и др. |
-| x              | number                | Координата X центра (или опорной точки) на холсте                       |
-| y              | number                | Координата Y центра (или опорной точки)                                 |
-| index          | number                | Порядок отрисовки (Z-индекс, чем больше, тем выше)                      |
-| locked         | boolean (опционально) | Заблокирован ли объект от перемещения/редактирования                    |
-| scaleX, scaleY | number (опционально)  | Масштаб по осям (по умолчанию 1)                                        |
-| params         | object                | Специфичные для типа параметры (форма, заливка, ссылки и т.д.)          |
+| id             | string (UUID)         | Unique object identifier (matches the key in the dictionary)             |
+| type           | string                | Shape type: "polygon", "image", "pointer", "ellipse", "rectangle", etc. |
+| x              | number                | X coordinate of the center (or anchor point) on the canvas              |
+| y              | number                | Y coordinate of the center (or anchor point)                            |
+| index          | number                | Rendering order (Z-index, higher means on top)                          |
+| locked         | boolean (optional)    | Whether the object is locked from moving/editing                        |
+| scaleX, scaleY | number (optional)     | Scale along axes (default 1)                                             |
+| params         | object                | Type-specific parameters (shape, fill, references, etc.)                 |
 
-## Типы объектов и их параметры
+## Object Types and Their Parameters
 
-**Полигон (`type: "polygon"`)**
-Задаётся массивом точек относительно центра (`x`, `y`). Точки перечислены в локальных координатах.
+**Polygon (`type: "polygon"`)**
+Defined by an array of points relative to the center (`x`, `y`). Points are listed in local coordinates.
 
-| Поле в params |             Тип            |                     Описание                    |
-|:-------------:|:--------------------------:|:-----------------------------------------------:|
-| points        | { x: number, y: number }[] | Массив вершин (относительные координаты)        |
-| fill          | string (опционально)       | Цвет заливки (CSS-формат, например "#eed81133") |
-| stroke        | string (опционально)       | Цвет обводки                                    |
-| strokeWidth   | number (опционально)       | Толщина обводки                                 |
+| Field in params |            Type            |                    Description                    |
+|:--------------:|:-------------------------:|:------------------------------------------------:|
+| points         | { x: number, y: number }[] | Array of vertices (relative coordinates)          |
+| fill           | string (optional)          | Fill color (CSS format, e.g. "#eed81133")         |
+| stroke         | string (optional)          | Stroke color                                      |
+| strokeWidth    | number (optional)          | Stroke thickness                                  |
 
-**Пример:**
+**Example:**
 
 ```json
 {
@@ -73,16 +73,16 @@ outline: deep
 }
 ```
 
-**Изображение (`type: "image"`)**
-Размещает на холсте растровое изображение.
+**Image (`type: "image"`)**
+Places a raster image on the canvas.
 
-| Поле в params |         Тип        |                  Описание                  |
-|:-------------:|:------------------:|:------------------------------------------:|
-| file          | AssetPropValueFile | Структура прикреплённого файла (см. 7.4.2) |
-| width         | number             | Ширина изображения на холсте (в пикселях)  |
-| height        | number             | Высота изображения на холсте               |
+| Field in params |        Type         |                  Description                  |
+|:---------------:|:------------------:|:--------------------------------------------:|
+| file            | AssetPropValueFile | Attached file structure [see Individual Block Structure](../integration/block-structure.md#attached-file) |
+| width           | number             | Image width on the canvas (in pixels)         |
+| height          | number             | Image height on the canvas                    |
 
-**Пример:**
+**Example:**
 
 ```json
 {
@@ -106,15 +106,15 @@ outline: deep
 }
 ```
 
-**Указатель на элемент (`type: "pointer"`)**
-Используется для привязки игрового объекта (персонажа, предмета, события) к точке на карте.
-|             Поле            |         Тип         |                Описание                |
-|:---------------------------:|:-------------------:|:--------------------------------------:|
-| value                       | AssetPropValueAsset | Ссылка на элемент (см. 7.4.4)          |
-| scaleX, scaleY              | number              | Масштаб отображения (опционально)      |
-| params.width, params.height | number              | Размеры области (для отрисовки иконки) |
+**Element Pointer (`type: "pointer"`)**
+Used to bind a game object (character, item, event) to a point on the map.
+|             Field            |         Type         |                Description                |
+|:---------------------------:|:-------------------:|:----------------------------------------:|
+| value                       | AssetPropValueAsset |[see Individual Block Structure](../integration/block-structure.md#reference-to-an-element)|
+| scaleX, scaleY              | number (optional)   | Display scale                             |
+| params.width, params.height | number              | Area dimensions (for icon rendering)      |
 
-**Пример:**
+**Example:**
 
 ```json
 {
@@ -136,17 +136,17 @@ outline: deep
 }
 ```
 
-**Эллипс (`type: "ellipse"`)**
-Рисует эллипс (или круг, если `rx == ry`).
+**Ellipse (`type: "ellipse"`)**
+Draws an ellipse (or circle if `rx == ry`).
 
-| Поле в params |          Тип         |     Описание    |
-|:-------------:|:--------------------:|:---------------:|
-| rx            | number               | Радиус по оси X |
-| ry            | number               | Радиус по оси Y |
-| fill          | string (опционально) | Цвет заливки    |
-| stroke        | string (опционально) | Цвет обводки    |
+| Field in params |         Type         |     Description    |
+|:--------------:|:--------------------:|:-----------------:|
+| rx             | number               | X-axis radius      |
+| ry             | number               | Y-axis radius      |
+| fill           | string (optional)    | Fill color         |
+| stroke         | string (optional)    | Stroke color       |
 
-**Пример:**
+**Example:**
 
 ```json
 {
@@ -162,10 +162,10 @@ outline: deep
 }
 ```
 
-**Прямоугольник (`type: "rectangle"`)**
-Ожидаемая структура: поля `width`, `height`, `fill`, `stroke`, `strokeWidth` (аналогично эллипсу и полигону).
+**Rectangle (`type: "rectangle"`)**
+Expected structure: fields `width`, `height`, `fill`, `stroke`, `strokeWidth` (similar to ellipse and polygon).
 
-### Пример полного блока уровня в JSON
+### Example of a Complete Level Block in JSON
 
 ```json
 {
@@ -182,22 +182,22 @@ outline: deep
 }
 ```
 
-### Чтение уровня движком
+### Reading the Level in the Engine
 
-Игровой движок может:
+The game engine can:
 
-1. Извлечь блок уровня из JSON элемента (по типу `level` или служебному имени).
+1. Extract the level block from the element JSON (by type `level` or internal name).
 
-2. Пройти по всем объектам в `objects`.
+2. Iterate through all objects in `objects`.
 
-3. Для каждого объекта:
+3. For each object:
 
-   * Прочитать `type` и отрисовать соответствующую фигуру (`polygon`, `image`, `ellipse` и т.д.).
+   * Read `type` and render the corresponding shape (`polygon`, `image`, `ellipse`, etc.).
 
-   * Для `pointer` — создать экземпляр игрового объекта, указанного в `value`, и разместить его в мировых координатах `(x, y)` с учётом масштаба.
+   * For `pointer` — create an instance of the game object specified in `value` and place it at world coordinates `(x, y)` taking scale into account.
 
-   * Использовать `index` для управления слоями (Z-порядком).
+   * Use `index` to manage layers (Z-order).
 
-4. По желанию, применить цвета `fill`/`stroke` для коллизий или визуальной отладки.
+4. Optionally, apply `fill`/`stroke` colors for collision or visual debugging.
 
-Так как все данные представлены в чистом JSON, движок на любом языке программирования может интерпретировать уровень без дополнительных парсеров.
+Since all data is presented in pure JSON, any programming language engine can interpret the level without additional parsers.

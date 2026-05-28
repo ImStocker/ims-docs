@@ -2,135 +2,151 @@
 outline: deep
 ---
 
-# Типы блоков документа
+# Document Block Types
 
-Все документы в системе строятся из **блоков**. Один документ может содержать блоки разных типов, расположенные вертикально в любом порядке. Каждый блок можно снабдить **заголовком** (отображаемое имя) и **служебным именем** (используется при выгрузке в движок, [см. раздел Интеграция с движком](../integration/engine-integration.md)).
+All documents in the system are built from **blocks**. A single document can contain blocks of different types, arranged vertically in any order. Each block can have a **title** (display name) and an **internal name** (used when exporting to the engine, [see Engine Integration section](../integration/index.md)).
 
-Ниже приведено описание всех доступных типов блоков.
+Below is a description of all available block types.
 
-## Текстовый блок
+## Text Block
 
-Обычное текстовое поле. Поддерживает:
+A plain text field. Supports:
 
-- ввод текста
-- вставку изображений
-- базовое форматирование: **жирный**, *курсив*, подчёркивание, зачёркивание, заголовки, списки, ссылки и т.д.
+- text input
+- image insertion
+- basic formatting: **bold**, *italic*, underline, strikethrough, headings, lists, links, etc.
 
-<img src="../images/text.png" alt="текст" >
+<img src="../images/text_en.png" alt="text" >
 
-## Таблица значений
+## Table
 
-Таблица с несколькими колонками и строками. Используется для ввода структурированных данных, когда нужно хранить множество записей (например, изменение характеристик врага в зависимости от уровня).
+A table with multiple columns and rows. Used for entering structured data when you need to store many records (e.g., enemy stat scaling by level).
 
-Одна из колонок будет **ключевой**, например, номер уровня
+One of the columns will be the **key** column, such as level number
 
-По умолчанию в значения ячеек таблицы текстовы, но вы можете настроить каждую колонку, указав ей:
-  - **Тип данных** - вид значений, который будут вписываться в ячейку (например, числа, перечисление, структура, ссылка на элемент)
-  - **Множественное значение** – можно вписывать несколько значений в одну ячейку.
-  - **Служебное имя** колонки – используется при выгрузке.
+By default, table cell values are text, but you can configure each column by specifying:
+  - **Data type** – the kind of values that will be entered in cells (e.g., numbers, enumeration, structure, element reference)
+  - **Multiple values** – allows entering multiple values in a single cell
+  - **Column internal name** – used during export
 
+<img src="../images/table_values_en.png" alt="values table" >
 
-## Таблица свойств
+## Property Sheet
 
-Отличается от таблицы значений тем, что задаёт **свойства текущего элемента** (пары «свойство → значение»). В ней нет множества записей по колонкам – каждое свойство имеет ровно одно значение. Удобно для описания параметров персонажа, объекта или механики.
+Differs from the values table in that it defines **properties of the current element** (property → value pairs). It does not have multiple records across columns – each property has exactly one value. Useful for describing character, object, or mechanic parameters.
 
-**Особенности:**
-- Два столбца: «Свойство» и «Значение».
-- Типы значений аналогичны таблице значений.
+**Features:**
+- Two columns: "Property" and "Value".
+- Value types are similar to the values table.
 
-## Галерея
+<img src="../images/table_properties_en.png" alt="properties table" >
 
-Блок для работы с изображениями и внешним контентом.
+### Configuring Properties
 
-**Что можно добавить:**
+Properties can be **Configured** by clicking the dots on the right. A tab will open on the right with parameter selection:
 
-- **Изображение с компьютера** – загрузить файл (PNG, JPG, GIF и др.).
-- **Ссылку на видео** – вставить ссылку, например, на YouTube
-- **Ссылку на изображение** – указать URL картинки.
-- **Изображение из буфера обмена** – вставить скопированное изображение.
+- **Field type.** The field can be of the following types: `String`, `Number`, `Text`, `Boolean`, `Date picker`, `File picker`, `Structure`, `Enumeration`, `Enumeration (radio buttons)`.
+- **Multiple.** If a property can have multiple values, check the box.
+- **Order.** Contains 2 buttons: `Up` and `Down`, used to change the order of properties.
 
-Галерея может содержать несколько элементов, отображаемых в виде плиток
+<img src="../images/editing_properties_en.png" width="800" alt="configuring properties">
 
-<img src="../images/gallery.png" alt="галерея" width="270">
+## Gallery
 
-## Прикреплённый документ
+A block for working with images and external content.
 
-Встраивание страницы внешнего сайта: Google Docs, Figma, Miro и другие сервисы, поддерживающие встраивание
+**What can be added:**
 
-<img src="../images/embedded_doc.png" alt="прикреплённый документ" >
+- **Image from computer** – upload a file (PNG, JPG, GIF, etc.).
+- **Video link** – insert a link, e.g., to YouTube
+- **Image link** – specify a URL of an image.
+- **Image from clipboard** – paste a copied image.
 
-## Чек-лист
+The gallery can contain multiple elements displayed as tiles
 
-Список задач с возможностью отмечать выполнение. Удобен для отслеживания прогресса, списков требований, шагов производства и т.п.
+<img src="../images/gallery_en.png" alt="gallery" width="600">
 
-<img src="../images/checklist.png" alt="чек-лист" width="270">
+## Embedded Document
 
-## Блок-схема
+Embedding an external website page: Google Docs, Figma, Miro, and other services that support embedding
 
-Визуальный редактор для создания схем и графов.
+<img src="../images/embedded_doc_en.png" alt="embedded document" width="450" height="250">
 
-**Функции:**
+## Checklist
 
-- Создание **блоков** (узлов) разной формы и цвета.
-- Связывание блоков **рёбрами** (стрелками, линиями).
-- Ввод **значений** в блоки (текст, числа).
-- Перемещение узлов и связей.
+A task list with the ability to mark completion. Useful for tracking progress, requirement lists, production steps, etc.
 
-Используется для проектирования архитектуры, логических схем, карт связей и т.д.
+<img src="../images/checklist_en.png" alt="checklist">
 
-<img src="../images/diagram.png" alt="блок-схема">
+## Diagram
 
-## Сценарий
+A visual editor for creating diagrams and graphs.
 
-Блок для создания **диалогов**, **сценариев** или **визуальных скриптов** (напоминает блюпринты из Unreal Engine). Работает на основе графа узлов [см. раздел Хранение сценариев (диалогов)](../integration/engine-integration.md#хранение-сценариев-диалогов).
+**Features:**
 
-**Доступные узлы:**
+- Creating **blocks** (nodes) of different shapes and colors.
+- Connecting blocks with **edges** (arrows, lines).
+- Entering **values** in blocks (text, numbers).
+- Moving nodes and connections.
 
-| Узел | Назначение |
-|------|-------------|
-| **Старт** | Точка входа в сценарий |
-| **Реплика** | Текст реплики и меню выбора игрока |
-| **Ветвление** | Выбор той или иной ветки диалога в зависимости от условия |
-| **Триггеры** | Вызов внешних функций движка (изменение здоровья, получение предмета и т.п.) |
-| **Переменные** | Чтение и установка переменных |
-| **Арифметические и логические операции** | Сложение, умножение, сравнение, И/ИЛИ и т.д. |
-| **Конец** | Завершение сценария |
+Used for designing architecture, logic diagrams, mind maps, etc.
 
-Сценарии могут использовать локальные переменные, а также взаимодействовать с игровой логикой через триггеры.
+<img src="../images/diagram_en.png" alt="diagram">
 
-Для исполнения сценариев в веб-движках (Phaser, Pixi.js и др.) доступна **JavaScript-библиотека** [`imsc-script-js`](https://github.com/ImStocker/imsc-script-js/).
+> **Note:** The example in the image shows how project elements can be referenced directly within blocks.
 
-<img src="../images/script.png" alt="скрипт" >
+## Script
 
-## Редактор уровня
+A block for creating **dialogs**, **scenarios**, or **visual scripts** (resembling Unreal Engine blueprints). Works based on a node graph [see Script (Dialog) Storage section](../integration/block-script-structure.md#script-dialog-storage).
 
-Блок для визуального проектирования игровых уровней. Представляет собой **холст**, на котором размещаются различные фигуры и объекты [см. раздел Хранение уровня (Level Editor)](../integration/engine-integration.md#хранение-уровня-level-editor).
+**Available nodes:**
 
-**Возможности:**
+| Node | Purpose |
+|------|---------|
+| **Start** | Entry point into the script |
+| **Speech** | Speech text and player choice menu |
+| **Branch** | Select one or another dialog branch depending on a condition |
+| **Trigger** | Call external engine functions (health change, item acquisition, etc.) |
+| **Get Variable** | Read a variable value |
+| **Set Variable** | Set a variable value |
+| **Arithmetic and Logical Operations** | Addition, multiplication, comparison, AND/OR, etc. |
+| **End** | Script termination |
 
-- Загрузить **фоновую картинку** карты (например, схему локации).
-- Разместить **полигоны**, **прямоугольники**, **эллипсы** для обозначения областей (коллизий, зон интереса, спавнов).
-- Добавить **указатели** на игровые объекты (персонажи, предметы, события) – привязка к элементам проекта.
-- Управлять порядком слоёв (Z-индекс).
-- Блокировать объекты от случайного перемещения.
+Scripts can use local variables and interact with game logic through triggers.
 
-Редактор уровня позволяет визуально настроить сцену, а движок может интерпретировать эти данные для расстановки объектов в игре.
+For executing scripts in web engines (Phaser, Pixi.js, etc.), a **JavaScript library** [`imsc-script-js`](https://github.com/ImStocker/imsc-script-js/) is available.
 
-<img src="../images/level_editor.png" alt="редактор уровня" >
+<img src="../images/script_en.png" alt="script" >
 
-## Текст сеткой
+## Level Editor
 
-Блок для размещения текста в **сеточной структуре** с возможностью настройки количества строк и столбцов.
+A block for visual game level design. It is a **canvas** on which various shapes and objects are placed [see Level Storage section](../integration/block-level-structure.md#level-storage).
 
-**Возможности:**
+**Features:**
 
-- Создать **сетку** из ячеек для структурированного размещения текста (по умолчанию 1 строка × 2 столбца).
-- Добавлять **ячейки** для расширения таблицы.
-- Заполнять каждую ячейку **независимым текстовым содержимым** (с форматированием или без).
-- Использовать для **сравнения** данных (например, «было / стало», «вариант A / вариант B»).
-- Разместить **парные описания** (проблема / решение, вопрос / ответ, свойство / значение).
+- Load a **background image** of the map (e.g., a location layout).
+- Place **polygons**, **rectangles**, **ellipses** to mark areas (collisions, zones of interest, spawns).
+- Add **pointers** to game objects (characters, items, events) – linked to project elements.
+- Manage layer order (Z-index).
+- Lock objects to prevent accidental movement.
 
-<img src="../images/grid_text.png" alt="текст сеткой" >
+The level editor allows visually setting up a scene, and the engine can interpret this data for placing objects in the game.
 
-::: tip **Примечание:** Блоки можно свободно комбинировать в одном документе. Например, документ «Описание персонажа» может содержать: таблицу свойств (характеристики), галерею (портреты), текстовый блок (биография), чек-лист (план по разработке).
-:::
+<img src="../images/level_editor_en.png" alt="level editor" >
+
+## Grid Text
+
+A block for placing text in a **grid structure** with configurable rows and columns.
+
+**Features:**
+
+- Create a **grid** of cells for structured text placement (default 1 row × 2 columns).
+- Add **cells** to expand the table.
+- Fill each cell with **independent text content** (with or without formatting).
+- Use for **comparing** data (e.g., "before / after", "option A / option B").
+- Place **paired descriptions** (problem / solution, question / answer, property / value).
+
+<img src="../images/grid_text_en.png" alt="grid text" >
+
+> [!TIP]
+> **Note:** Blocks can be freely combined in a single document. For example, a "Character Description" document can contain: a properties table (stats), a gallery (portraits), a text block (biography), a checklist (development plan).
