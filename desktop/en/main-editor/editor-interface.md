@@ -21,8 +21,8 @@ When opening any element (document, game object, script, etc.), an **editor** ap
 
 The document consists of a **set of blocks** arranged vertically. A single document can combine blocks of different types:
 - [text](block-types.md#text-block) 
-- [values tables](block-types.md#values-table)
-- [properties tables](block-types.md#properties-table)
+- [values tables](block-types.md#table)
+- [properties tables](block-types.md#property-sheet)
 - [gallery](block-types.md#gallery)
 - [embedded document](block-types.md#embedded-document)
 - [checklist](block-types.md#checklist)
